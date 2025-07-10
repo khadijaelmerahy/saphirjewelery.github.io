@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panier</title>
+  <link rel="stylesheet" href="Panier.css">
+  <link rel="icon" href="img_logo/RRR-fotor-20250508143416.png" type="image/png">
+  <style>
+    /* Global Styles */
+    body {
+      margin: 0;
+      padding-top: 5rem;
+      font-family: 'Georgia', serif;
+      background-color: #fdfdfd;
+      color: #222;
+    }
+
+    /* Header Styles */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background-color: #fff;
+      border-bottom: 1px solid #ddd;
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.5rem 1rem;
+      z-index: 1;
+      box-sizing: border-box;
+    }
+
+    .title {
+      font-size: 1.5rem;
+      font-weight: bold;
+      text-align: center;
+      flex-grow: 1;
+      color: #333;
+      letter-spacing: 1px;
+    }
+
+    .menu-icons {
+      display: flex;
+      gap: 1.5rem;
+      align-items: center;
+      padding-left: 0.5rem;
+      padding-right: 0.5rem;
+    }
+
+    .menu-icons img {
+      width: 24px;
+      height: 24px;
+      object-fit: contain;
+      transition: transform 0.3s ease;
+    }
+
+    .menu-icons img:hover {
+      transform: scale(1.1);
+    }
+
+    /* Burger Button */
+    .burger-button {
+      font-size: 1.5rem;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      color: #333;
+      transition: color 0.3s ease;
+    }
+
+    .burger-button:hover {
+      color: #EAC7C7;
+    }
+
+    /* Sidebar Menu */
+    .sidebar-menu {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 80%;
+      max-width: 280px;
+      background: linear-gradient(135deg, #EAC7C7 0%, #F7F5EB 100%);
+      box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.3);
+      z-index: 2;
+      padding: 20px;
+      box-sizing: border-box;
+      transform: translateX(-100%);
+      transition: transform 0.4s ease-in-out;
+    }
+
+    .sidebar-menu.active {
+      display: block;
+      transform: translateX(0);
+    }
+
+    .sidebar-menu ul {
+      list-style: none;
+      padding: 0;
+      margin: 60px 0 0 0;
+    }
+
+    .sidebar-menu ul li {
+      margin-bottom: 15px;
+      position: relative;
+    }
+
+    .sidebar-menu ul li a {
+      text-decoration: none;
+      color: #333;
+      font-size: 1.2rem;
+      font-weight: bold;
+      display: block;
+      padding: 12px 20px;
+      border-radius: 8px;
+      transition: background-color 0.3s ease, color 0.3s ease, padding-left 0.3s ease;
+    }
+
+    .sidebar-menu ul li a:hover {
+      background-color: #fff;
+      color: #EAC7C7;
+      padding-left: 25px;
+    }
+
+    .sidebar-menu ul li a::before {
+      content: '';
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 6px;
+      height: 6px;
+      background-color: #EAC7C7;
+      border-radius: 50%;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .sidebar-menu ul li a:hover::before {
+      opacity: 1;
+    }
+
+    .close-button {
+      font-size: 2rem;
+      color: #333;
+      cursor: pointer;
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      transition: color 0.3s ease, transform 0.3s ease;
+    }
+
+    .close-button:hover {
+      color: #EAC7C7;
+      transform: rotate(90deg);
+    }
+
+    /* Submenu Styles */
+    .submenu {
+      display: none;
+      padding-left: 20px;
+      margin-top: 5px;
+    }
+
+    .submenu.active {
+      display: block;
+    }
+
+    .submenu a {
+      font-size: 1rem;
+      padding: 8px 20px;
+      color: #555;
+    }
+
+    .submenu a:hover {
+      color: #EAC7C7;
+      background-color: rgba(255, 255, 255, 0.3);
+    }
+
+    .has-submenu > a::after {
+      content: '▼';
+      font-size: 0.8rem;
+      margin-left: 10px;
+      transition: transform 0.3s ease;
+    }
+
+    .has-submenu.active > a::after {
+      transform: rotate(180deg);
+    }
+
+    /* Media Queries */
+    @media (max-width: 768px) {
+      .title {
+        font-size: 1.2rem;
+      }
+
+      .sidebar-menu {
+        max-width: 250px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .title {
+        font-size: 1.2rem;
+      }
+
+      .menu-icons img {
+        width: 20px;
+        height: 20px;
+      }
+
+      .sidebar-menu ul li a {
+        font-size: 1.1rem;
+        padding: 10px 15px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <button class="burger-button" onclick="toggleMenu()">☰</button>
+    <a href="home.html" class="title" style="text-decoration: none; color: black;">Saphir Jewelry</a>
+    <div class="menu-icons">
+      <a href="favoris.html"><img src="coeur.png" alt="Favoris" /></a>
+      <a href="login.html"><img src="login.png" alt="Connexion" /></a>
+      <a href="panier.html"><img src="panier.png" alt="Panier" /></a>
+    </div>
+  </header>
+
+  <!-- Sidebar Menu -->
+  <nav class="sidebar-menu">
+    <span class="close-button" onclick="closeMenu()">×</span>
+    <ul>
+      <li><a href="home.html">Home</a></li>
+      <li class="has-submenu">
+        <a href="#" onclick="toggleSubmenu(this)">Jewelry</a>
+        <div class="submenu">
+          <a href="collier.html">Necklaces</a>
+          <a href="bracelet.html">Bracelets</a>
+          <a href="bague.html">Rings</a>
+          <a href="collection.html">Collections</a>
+        </div>
+      </li>
+      <li><a href="favoris.html">Favorites</a></li>
+      <li><a href="panier.html">Cart</a></li>
+      <li><a href="about.html">About us</a></li>
+    </ul>
+  </nav>
+
+  <!-- Main Content -->
+  <main>
+    <!-- Hero Section (inspired by About Us) -->
+    <section class="hero-section">
+      <div class="hero-content">
+        <h1>Your Cart</h1>
+        <p>Psst... your cart is whispering, Add me! Don't leave it hanging!</p>
+      </div>
+    </section>
+
+    <!-- Cart Section (inspired by About Us "about" section) -->
+    <section id="cart" class="fade-in">
+      <div class="cart-container">
+        <div class="cart-grid">
+          <div class="cart-items">
+            <div class="cart-list">
+              <ul id="liste-produits"></ul>
+            </div>
+            <div class="cart-total">
+              <div class="total">Total: <span id="total">0</span> MAD</div>
+            </div>
+          </div>
+          <div class="cart-image">
+            <img src="shopping.jpeg" alt="Shopping Image" />
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-container">
+      <div class="footer-logo">
+        <img src="img_logo/RRR-fotor-20250508143416.png" alt="Saphir Jewelry Logo" />
+      </div>
+      <div class="footer-links">
+        <a href="contact.html">Contact</a>
+        <a href="terms.html">Terms</a>
+        <a href="privacy.html">Privacy</a>
+      </div>
+      <p>© 2025 Saphir Jewelry. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    function toggleMenu() {
+      const sidebar = document.querySelector('.sidebar-menu');
+      sidebar.classList.toggle('active');
+    }
+
+    function closeMenu() {
+      const sidebar = document.querySelector('.sidebar-menu');
+      sidebar.classList.remove('active');
+    }
+
+    function toggleSubmenu(element) {
+      const parentLi = element.parentElement;
+      const submenu = parentLi.querySelector('.submenu');
+      parentLi.classList.toggle('active');
+      submenu.classList.toggle('active');
+    }
+
+    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+    const liste = document.getElementById("liste-produits");
+    let total = 0;
+
+    if (cart.length === 0) {
+      liste.innerHTML = "<li>Your shopping cart is empty.</li>";
+    } else {
+      cart.forEach((item, index) => {
+        const li = document.createElement("li");
+        li.className = "cart-item";
+
+        li.innerHTML = `
+          <span>${item.name} - ${item.price.toFixed(2)} MAD</span>
+          <div class="controls">
+            <button class="buy-button" onclick="changeQuantity(${index}, -1)">-</button>
+            <span>${item.quantity}</span>
+            <button class="buy-button" onclick="changeQuantity(${index}, 1)">+</button>
+            <button class="buy-button" onclick="removeItem(${index})">Drop</button>
+          </div>
+        `;
+
+        liste.appendChild(li);
+        total += item.price * item.quantity;
+      });
+    }
+
+    document.getElementById("total").textContent = total.toFixed(2);
+
+    function changeQuantity(index, delta) {
+      let cart = JSON.parse(localStorage.getItem("cart")) || [];
+      cart[index].quantity += delta;
+
+      if (cart[index].quantity <= 0) {
+        cart.splice(index, 1);
+      }
+
+      localStorage.setItem("cart", JSON.stringify(cart));
+      location.reload();
+    }
+
+    function removeItem(index) {
+      let cart = JSON.parse(localStorage.getItem("cart")) || [];
+      cart.splice(index, 1);
+      localStorage.setItem("cart", JSON.stringify(cart));
+      location.reload();
+    }
+  </script>
+</body>

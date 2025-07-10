@@ -1,0 +1,1153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saphir Jewelry</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="icon" href="img_logo/RRR-fotor-20250508143416.png" type="image/png">
+    <style>
+        /* Global Styles */
+        body {
+            margin: 0;
+            padding-top: 5rem;
+            font-family: 'Georgia', serif;
+            background-color: #fdfdfd;
+            color: #222;
+        }
+
+        /* Header Styles */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #fff;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.5rem 1rem;
+            z-index: 1;
+            box-sizing: border-box;
+        }
+
+        .title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-align: center;
+            flex-grow: 1;
+            color: #333;
+            letter-spacing: 1px;
+        }
+
+        .menu-icons {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+            padding-left: 0.5rem;
+            padding-right: 0.5rem;
+        }
+
+        .menu-icons img {
+            width: 24px;
+            height: 24px;
+            object-fit: contain;
+            transition: transform 0.3s ease;
+        }
+
+        .menu-icons img:hover {
+            transform: scale(1.1);
+        }
+
+        /* Burger Button */
+        .burger-button {
+            font-size: 1.5rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            color: #333;
+            transition: color 0.3s ease;
+        }
+
+        .burger-button:hover {
+            color: #EAC7C7;
+        }
+
+        /* Sidebar Menu */
+        .sidebar-menu {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 80%;
+            max-width: 280px;
+            background: linear-gradient(135deg, #EAC7C7 0%, #F7F5EB 100%);
+            box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.3);
+            z-index: 2;
+            padding: 20px;
+            box-sizing: border-box;
+            transform: translateX(-100%);
+            transition: transform 0.4s ease-in-out;
+        }
+
+        .sidebar-menu.active {
+            display: block;
+            transform: translateX(0);
+        }
+
+        .sidebar-menu ul {
+            list-style: none;
+            padding: 0;
+            margin: 60px 0 0 0;
+        }
+
+        .sidebar-menu ul li {
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .sidebar-menu ul li a {
+            text-decoration: none;
+            color: #333;
+            font-size: 1.2rem;
+            font-weight: bold;
+            display: block;
+            padding: 12px 20px;
+            border-radius: 8px;
+            transition: background-color 0.3s ease, color 0.3s ease, padding-left 0.3s ease;
+        }
+
+        .sidebar-menu ul li a:hover {
+            background-color: #fff;
+            color: #EAC7C7;
+            padding-left: 25px;
+        }
+
+        .sidebar-menu ul li a::before {
+            content: '';
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 6px;
+            height: 6px;
+            background-color: #EAC7C7;
+            border-radius: 50%;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .sidebar-menu ul li a:hover::before {
+            opacity: 1;
+        }
+
+        .close-button {
+            font-size: 2rem;
+            color: #333;
+            cursor: pointer;
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+
+        .close-button:hover {
+            color: #EAC7C7;
+            transform: rotate(90deg);
+        }
+
+        /* Submenu Styles */
+        .submenu {
+            display: none;
+            padding-left: 20px;
+            margin-top: 5px;
+        }
+
+        .submenu.active {
+            display: block;
+        }
+
+        .submenu a {
+            font-size: 1rem;
+            padding: 8px 20px;
+            color: #555;
+        }
+
+        .submenu a:hover {
+            color: #EAC7C7;
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .has-submenu > a::after {
+            content: '▼';
+            font-size: 0.8rem;
+            margin-left: 10px;
+            transition: transform 0.3s ease;
+        }
+
+        .has-submenu.active > a::after {
+            transform: rotate(180deg);
+        }
+
+        /* Video Styles */
+        .video-container {
+            width: 25%;
+            height: 400px;
+            overflow: hidden;
+            margin: 20px auto;
+            border-radius: 20px;
+        }
+
+        video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Animation Effects */
+        .p1,
+        .p2,
+        .bout {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 1s ease forwards;
+        }
+
+        .p1 {
+            animation-delay: 0.2s;
+            color: #e5d9b6;
+        }
+
+        .p2 {
+            animation-delay: 0.5s;
+            color: #e5d9b6;
+        }
+
+        .p3 {
+            color: gold;
+        }
+
+        .bout {
+            animation-delay: 0.8s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 10vh;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Main Section Styles */
+        .main {
+            text-align: center;
+        }
+
+        .cont {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            gap: 20px;
+            background-image: url('bckgrd.jpeg');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .nous {
+            background: none;
+            border: 2px solid #EAE0DA;
+            padding: 0.5rem 1.5rem;
+            font-family: inherit;
+            font-size: 1rem;
+            color: #e5d9b6;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-radius: 5px;
+        }
+
+        .nous:hover {
+            background-color: #EAC7C7;
+            color: white;
+            transform: scale(1.05);
+            box-shadow: 0 4px 8px rgba(242, 154, 223, 0.4);
+        }
+
+        .nous:focus {
+            outline: none;
+            box-shadow: 0 0 5px 2px rgba(215, 135, 204, 0.6);
+        }
+
+        .acheter_categ {
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin: 40px 0;
+            font-family: 'Roboto', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .cont_category {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            gap: 30px;
+            width: 100%;
+            margin: 20px 0;
+            background-color: white;
+            padding: 40px 0;
+            border-radius: 10px;
+        }
+
+        .category-item {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 25%;
+        }
+
+        .category-item img {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 50%;
+            transition: transform 0.3s ease;
+        }
+
+        .category-item img:hover {
+            transform: scale(1.1);
+        }
+
+        .category-item p {
+            margin-top: 10px;
+            font-size: 1rem;
+            color: #333;
+        }
+
+        .acheter_categ:hover {
+            color: #EAC7C7;
+            transform: scale(1.1);
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .category-item a {
+            display: block;
+            width: 100%;
+            height: 100%;
+            text-decoration: none;
+            border-radius: 10px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .category-item a:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .category-item p {
+            margin-top: 10px;
+            font-size: 1.1rem;
+            color: #333;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .testimonial-section {
+            padding: 40px 20px;
+            background-color: #F7F5EB;
+            text-align: center;
+        }
+
+        .testimonial-section h2 {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 30px;
+            color: #333;
+        }
+
+        .testimonials {
+            display: flex;
+            justify-content: space-around;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .testimonial {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            width: 250px;
+            text-align: center;
+        }
+
+        .testimonial img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin-bottom: 20px;
+        }
+
+        .testimonial .quote {
+            font-size: 1.1rem;
+            font-style: italic;
+            color: #555;
+            margin-bottom: 15px;
+        }
+
+        .testimonial .name {
+            font-size: 1rem;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .upcoming-collection {
+            padding: 40px 20px;
+            background-color: #F7F5EB;
+            text-align: center;
+        }
+
+        .upcoming-collection h2 {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #EAC7C7;
+            margin-bottom: 40px;
+        }
+
+        .collection-items {
+            display: flex;
+            justify-content: space-around;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .collection-item {
+            background-color: #F7F5EB;
+            padding: 20px;
+            border-radius: 10px;
+            width: 250px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-align: center;
+        }
+
+        .collection-item img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .item-details {
+            margin-top: 15px;
+        }
+
+        .item-details h3 {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #333;
+            margin: 10px 0;
+        }
+
+        .item-details .description {
+            font-size: 1rem;
+            color: #555;
+            margin-bottom: 10px;
+        }
+
+        .item-details .price {
+            font-size: 1.1rem;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .collection-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .jewelry-care-section {
+            padding: 40px 20px;
+            background-color: #1b201e;
+            text-align: center;
+            border-radius: 10px;
+            margin: 40px 0;
+            margin-bottom: 60px;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-family: 'Georgia', serif;
+        }
+
+        .video-section {
+            display: flex;
+            justify-content: space-between;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .video-item {
+            width: 48%;
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .video-item video {
+            width: 55%;
+            height: auto;
+            object-fit: contain;
+            border-radius: 10px;
+        }
+
+        .value-section {
+            background-color: #1b201e;
+            color: #e5d9b6;
+            padding: 40px 20px;
+            text-align: center;
+            border-radius: 10px;
+            margin: 40px 0;
+        }
+
+        .value-items {
+            display: flex;
+            justify-content: space-around;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .value-item {
+            width: 23%;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .value-icon {
+            width: 120px;
+            height: auto;
+            margin-bottom: 10px;
+        }
+
+        .footer {
+            background-color: #1b1b1b;
+            color: #e5d9b6;
+            padding: 40px 20px;
+            text-align: center;
+            margin-top: 60px;
+            border-top: 1px solid #333;
+        }
+
+        .quote {
+            font-size: 2rem;
+            font-family: 'Georgia', serif;
+            font-style: italic;
+            margin-bottom: 20px;
+        }
+
+        .footer-note {
+            font-size: 1rem;
+            font-family: 'Arial', sans-serif;
+            color: #d4af37;
+            margin-top: 10px;
+            letter-spacing: 1px;
+        }
+
+        .info-section {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            margin: 10px 0;
+            padding: 10px;
+            background-color: #F7F5EB;
+            border-radius: 40px;
+        }
+
+        .info-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 48%;
+        }
+
+        .info-item img {
+            width: 80%;
+            height: auto;
+            border-radius: 10px;
+        }
+
+        .info-text {
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        .info-text h3 {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .info-text p {
+            font-size: 1rem;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        .newsletter-section {
+            text-align: center;
+            padding: 40px 20px;
+            background-color: rgb(238, 184, 193);
+            margin-top: 40px;
+            border-radius: 10px;
+        }
+
+        .newsletter-title {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .newsletter-description {
+            font-size: 1.1rem;
+            color: #666;
+            margin: 10px 0;
+        }
+
+        .newsletter-form {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .newsletter-input {
+            padding: 10px;
+            font-size: 1rem;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            width: 300px;
+            max-width: 100%;
+        }
+
+        .newsletter-button {
+            padding: 10px 20px;
+            background-color: #EAC7C7;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .newsletter-button:hover {
+            background-color: #E5A1A1;
+        }
+
+        /* Mobile Optimizations */
+        @media (max-width: 768px) {
+            .title {
+                font-size: 1.3rem;
+            }
+
+            .video-container {
+                width: 90%;
+                height: 50vw;
+                max-height: 300px;
+            }
+
+            .cont {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .cont_category {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .category-item {
+                width: 80%;
+                margin-bottom: 20px;
+            }
+
+            .category-item img {
+                width: 120px;
+                height: 120px;
+            }
+
+            .testimonial,
+            .collection-item {
+                width: 90%;
+                margin: 0 auto 20px;
+            }
+
+            .video-item,
+            .value-item {
+                width: 100%;
+                margin-bottom: 20px;
+            }
+
+            .newsletter-input {
+                width: 90%;
+                max-width: none;
+            }
+
+            .newsletter-form {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .quote {
+                font-size: 1.5rem;
+            }
+
+            .acheter_categ {
+                font-size: 1.8rem;
+            }
+
+            .info-section {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .info-item {
+                width: 80%;
+                margin-bottom: 20px;
+            }
+
+            .sidebar-menu {
+                max-width: 250px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .title {
+                font-size: 1.2rem;
+            }
+
+            .menu-icons img {
+                width: 20px;
+                height: 20px;
+            }
+
+            .section-title {
+                font-size: 1.8rem;
+            }
+
+            .newsletter-title {
+                font-size: 1.5rem;
+            }
+
+            .newsletter-description {
+                font-size: 1rem;
+            }
+
+            .sidebar-menu ul li a {
+                font-size: 1.1rem;
+                padding: 10px 15px;
+            }
+        }
+
+        .stardust-collection {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f8f6f1;
+            padding: 40px 20px;
+            margin-top: 50px;
+        }
+
+        .stardust-container {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #ffffff;
+            box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            border-radius: 12px;
+            width: 80%;
+            max-width: 1100px;
+        }
+
+        .stardust-image {
+            width: 350px;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .stardust-details {
+            flex: 1;
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding-left: 30px;
+        }
+
+        .stardust-details h2 {
+            font-size: 2.2rem;
+            color: #333;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .stardust-details p {
+            font-size: 1.1rem;
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .shop-now-btn {
+            background-color: #a38b6b;
+            color: #fff;
+            font-size: 1.1rem;
+            padding: 14px 24px;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            align-self: flex-start;
+        }
+
+        .shop-now-btn:hover {
+            background-color: #8c7455;
+            transform: scale(1.05);
+        }
+
+        @media (max-width: 768px) {
+            .stardust-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .stardust-image {
+                width: 100%;
+                max-width: 300px;
+                margin-bottom: 20px;
+            }
+
+            .stardust-details {
+                text-align: center;
+                padding-left: 0;
+            }
+        }
+
+        .exp-ach {
+            text-align: center;
+            font-size: 2rem;
+            font-style: italic;
+            font-weight: normal;
+            margin: 2rem auto;
+            color: #EAC7C7;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <button class="burger-button" onclick="toggleMenu()">☰</button>
+        <a href="home.html" class="title" style="text-decoration: none; color: black;">Saphir Jewelry</a>
+        <div class="menu-icons">
+            <a href="favoris.html"><img src="coeur.png" alt="Favorites" /></a>
+            <a href="login.html"><img src="login.png" alt="Login" /></a>
+            <a href="panier.html"><img src="panier.png" alt="Cart" /></a>
+        </div>
+    </header>
+    <!-- Sidebar Menu -->
+    <nav class="sidebar-menu">
+        <span class="close-button" onclick="closeMenu()">×</span>
+        <ul>
+            <li><a href="home.html">Home</a></li>
+            <li class="has-submenu">
+                <a href="#" onclick="toggleSubmenu(this)">Jewelry</a>
+                <div class="submenu">
+                    <a href="collier.html">Necklaces</a>
+                    <a href="bracelet.html">Bracelets</a>
+                    <a href="bague.html">Rings</a>
+                    <a href="collection.html">Collections</a>
+                </div>
+            </li>
+            <li><a href="favoris.html">Favorites</a></li>
+            <li><a href="panier.html">Cart</a></li>
+            <li><a href="about.html">About us</a></li>
+        </ul>
+    </nav>
+
+    <div class="cont">
+        <div class="video-container">
+            <video src="videooff.mp4" autoplay loop muted playsinline>
+                Sorry, your browser does not support the <code>video</code> tag.
+            </video>
+        </div>
+        <div class="main">
+            <h1 class="p1">Where style meets innovative ways of discovering new jewelry.</h1>
+            <br>
+            <p class="p2"><i>A jewelry destination where elegance seamlessly blends with your unique style aspirations. Discover today!</i></p>
+            
+            <div class="bout">
+                <a href="about.html"><button class="nous">About Us</button></a>
+            </div>
+        </div>
+    </div>
+    <div class="info-section">
+        <div class="info-item">
+            <img src="img1.jfif" alt="Sustainably Sourced">
+            <div class="info-text">
+                <h3>Sustainably Sourced</h3>
+                <p>Jewelry crafted with care, environmentally friendly. Explore our ethical and refined collection.</p>
+            </div>
+        </div>
+        <div class="info-item">
+            <img src="img2.jfif" alt="Ethically Crafted">
+            <div class="info-text">
+                <h3>Ethically Crafted</h3>
+                <p>Made with high-quality materials and deep respect for ethics, each piece tells a story of passion and sustainability.</p>
+            </div>
+        </div>
+    </div>
+    <div class="exp-ach">
+        Shop by category
+    </div>
+    <div class="acheter_categ">
+    </div>
+    <div class="cont_category">
+        <div class="category-item">
+            <a href="collier.html"><img src="collier.jpeg" alt="Necklaces"></a>
+            <p>Necklaces</p>
+        </div>
+        <div class="category-item">
+            <a href="bracelet.html"><img src="bracelet.jpeg" alt="Bracelets"></a>
+            <p>Bracelets</p>
+        </div>
+        <div class="category-item">
+            <a href="collection.html"><img src="collections.jpeg" alt="Collections"></a>
+            <p>Collections</p>
+        </div>
+        <div class="category-item">
+            <a href="bague.html"><img src="bagues.jpeg" alt="Rings"></a>
+            <p>Rings</p>
+        </div>
+    </div>
+    <div class="stardust-collection">
+        <div class="stardust-container">
+            <img src="gift_card.png" alt="Gift Card" class="stardust-image" />
+            <div class="stardust-details">
+                <h2>Want to gift a loved one a Saphir Jewelry Gift Card?</h2>
+                <p>Give the gift of choice with a Saphir Jewelry gift card, perfect for any occasion.</p>
+                <a href="gifts.html">
+                    <button class="shop-now-btn">SHOP NOW</button>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="testimonial-section">
+        <h2>What our customers say</h2>
+        <div class="testimonials">
+            <div class="testimonial">
+                <img src="avatar1.png" alt="Maddie Jones">
+                <p class="quote">"I bought a ring from the Saphir Jewelry collection and I am absolutely delighted. The quality is incredible, and the design is elegant. I never tire of wearing it. I highly recommend it to anyone looking for sophisticated and durable jewelry."</p>
+                <p class="name">- Maddie Jones</p>
+            </div>
+            <div class="testimonial">
+                <img src="avatar2.png" alt="Trin Hien">
+                <p class="quote">"The customer service at Saphir Jewelry is exceptional! I had a question about a product, and they responded quickly and helped me make the right choice. I am very satisfied with my order and will definitely come back for more jewelry."</p>
+                <p class="name">- Trin Hien</p>
+            </div>
+            <div class="testimonial">
+                <img src="avatar3.png" alt="Imani Olowe">
+                <p class="quote">"I love the unique creations of Saphir Jewelry. I bought a pair of earrings and they are not only beautiful but also very original. I am happy to wear something unique and carefully made."</p>
+                <p class="name">- Imani Olowe</p>
+            </div>
+        </div>
+    </div>
+    <div class="upcoming-collection">
+        <h2>Upcoming Collection</h2>
+        <div class="collection-items">
+            <div class="collection-item">
+                <img src="upcoming1.png" alt="Custom Pendant">
+                <div class="item-details">
+                    <h3>Custom Pendant</h3>
+                    <p class="description">Floating Heart (Your Choice of Gem)</p>
+                    <p class="price">99 MAD and up</p>
+                </div>
+            </div>
+            <div class="collection-item">
+                <img src="upcoming2.png" alt="Custom Earrings">
+                <div class="item-details">
+                    <h3>Custom Earrings</h3>
+                    <p class="description">Three Studded (Your Choice of Stones)</p>
+                    <p class="price">89 MAD and up</p>
+                </div>
+            </div>
+            <div class="collection-item">
+                <img src="upcoming3.png" alt="Custom Charm Bracelet">
+                <div class="item-details">
+                    <h3>Custom Charm Bracelet</h3>
+                    <p class="description">Bracelets</p>
+                    <p class="price">119 MAD and up</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <section class="jewelry-care-section">
+        <h2 class="section-title">Styling Your Jewelry for Every Occasion</h2>
+        <div class="video-section">
+            <div class="video-item">
+                <video src="videocare.mp4" autoplay loop muted playsinline>
+                    Sorry, your browser does not support the <code>video</code> tag.
+                </video>
+            </div>
+            <div class="video-item">
+                <video src="coffedtae.mp4" autoplay loop muted playsinline>
+                    Sorry, your browser does not support the <code>video</code> tag.
+                </video>
+            </div>
+        </div>
+    </section>
+    <section class="value-section">
+        <h2 class="section-title">The Value in Our Stainless Steel Jewelry</h2>
+        <div class="value-items">
+            <div class="value-item">
+                <img src="shipping.png" alt="Shipping" class="value-icon">
+                <p>Worldwide shipping with tracking</p>
+            </div>
+            <div class="value-item">
+                <img src="quality.png" alt="Stainless Steel" class="value-icon">
+                <p>High-quality stainless steel</p>
+            </div>
+            <div class="value-item">
+                <img src="ecofriendly.png" alt="Eco-Friendly" class="value-icon">
+                <p>Eco-friendly and recyclable material</p>
+            </div>
+            <div class="value-item">
+                <img src="garantie.png" alt="Warranty" class="value-icon">
+                <p>Durable with a 2-year warranty</p>
+            </div>
+        </div>
+    </section>
+    <div class="newsletter-section">
+        <h2 class="newsletter-title">JOIN OUR LIST</h2>
+        <p class="newsletter-description">Be the first to know about new collections and exclusive offers.</p>
+        <form id="newsletter-form" class="newsletter-form">
+            <input type="email" id="email" class="newsletter-input" placeholder="Email" required>
+            <button type="submit" class="newsletter-button">→</button>
+        </form>
+    </div>
+    <footer class="footer">
+        <div class="footer-content">
+            <blockquote class="quote">
+                "Life is too short for boring jewelry"
+            </blockquote>
+            <p class="footer-note">Enhance your look with our unique stainless steel jewelry.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script>
+        function toggleMenu() {
+            const sidebar = document.querySelector('.sidebar-menu');
+            sidebar.classList.toggle('active');
+        }
+
+        function closeMenu() {
+            const sidebar = document.querySelector('.sidebar-menu');
+            sidebar.classList.remove('active');
+        }
+
+        function toggleSubmenu(element) {
+            const parentLi = element.parentElement;
+            const submenu = parentLi.querySelector('.submenu');
+            parentLi.classList.toggle('active');
+            submenu.classList.toggle('active');
+        }
+
+        // Initialize EmailJS with error handling
+        (function() {
+            if (typeof emailjs === 'undefined') {
+                console.error('EmailJS SDK failed to load. Please check the script source and your internet connection.');
+                alert('Failed to load email service. Please try again later or contact support.');
+                return;
+            }
+            try {
+                emailjs.init('gCQYLOYmuV1SjIY5B'); // Replace with your EmailJS Public Key
+                console.log('EmailJS initialized successfully');
+            } catch (error) {
+                console.error('Failed to initialize EmailJS:', error);
+                alert('Failed to initialize email service. Please try again later or contact support.');
+            }
+        })();
+
+        // Newsletter form submission with detailed error handling
+        document.getElementById('newsletter-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const email = document.getElementById('email').value.trim();
+
+            if (!email) {
+                alert('Please enter a valid email address.');
+                return;
+            }
+
+            const templateParams = {
+                email: email
+            };
+
+            console.log('Attempting to send email with params:', templateParams);
+
+            emailjs.send('service_1ju35yw', 'template_66wurbf', templateParams)
+                .then(function(response) {
+                    console.log('Email sent successfully:', response.status, response.text);
+                    alert('Thank you for subscribing! We will contact you soon.');
+                    document.getElementById('email').value = '';
+                }, function(error) {
+                    console.error('Failed to send email:', error);
+                    let errorMessage = 'There was a problem sending your email. Please try again later.';
+                    if (error.status === 403) {
+                        errorMessage += ' (Error 403: Invalid Public Key. Please check your EmailJS configuration.)';
+                    } else if (error.status === 400) {
+                        errorMessage += ' (Error 400: Invalid Service or Template ID. Please check your EmailJS configuration.)';
+                    } else if (error.text && error.text.includes('rate limit')) {
+                        errorMessage += ' (Error: Rate limit exceeded. Please try again later or upgrade your EmailJS plan.)';
+                    } else if (error.text) {
+                        errorMessage += ' (Details: ' + error.text + ')';
+                    }
+                    alert(errorMessage);
+                });
+        });
+    </script>
+</body>
+
+</html>

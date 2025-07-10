@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mes Favoris - Saphir Jewelry</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <link rel="icon" href="img_logo/RRR-fotor-20250508143416.png" type="image/png">
+  <style>
+    /* Global Styles */
+    body {
+      margin: 0;
+      padding-top: 5rem;
+      font-family: 'Georgia', serif;
+      background-color: #fdfdfd;
+      color: #222;
+    }
+
+    /* Header Styles */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background-color: #fff;
+      border-bottom: 1px solid #ddd;
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.5rem 1rem;
+      z-index: 1;
+      box-sizing: border-box;
+    }
+
+    .title {
+      font-size: 1.5rem;
+      font-weight: bold;
+      text-align: center;
+      flex-grow: 1;
+      color: #333;
+      letter-spacing: 1px;
+    }
+
+    .menu-icons {
+      display: flex;
+      gap: 1.5rem;
+      align-items: center;
+      padding-left: 0.5rem;
+      padding-right: 0.5rem;
+    }
+
+    .menu-icons img {
+      width: 24px;
+      height: 24px;
+      object-fit: contain;
+      transition: transform 0.3s ease;
+    }
+
+    .menu-icons img:hover {
+      transform: scale(1.1);
+    }
+
+    /* Burger Button */
+    .burger-button {
+      font-size: 1.5rem;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      color: #333;
+      transition: color 0.3s ease;
+    }
+
+    .burger-button:hover {
+      color: #EAC7C7;
+    }
+
+    /* Sidebar Menu */
+    .sidebar-menu {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 80%;
+      max-width: 280px;
+      background: linear-gradient(135deg, #EAC7C7 0%, #F7F5EB 100%);
+      box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.3);
+      z-index: 2;
+      padding: 20px;
+      box-sizing: border-box;
+      transform: translateX(-100%);
+      transition: transform 0.4s ease-in-out;
+    }
+
+    .sidebar-menu.active {
+      display: block;
+      transform: translateX(0);
+    }
+
+    .sidebar-menu ul {
+      list-style: none;
+      padding: 0;
+      margin: 60px 0 0 0;
+    }
+
+    .sidebar-menu ul li {
+      margin-bottom: 15px;
+      position: relative;
+    }
+
+    .sidebar-menu ul li a {
+      text-decoration: none;
+      color: #333;
+      font-size: 1.2rem;
+      font-weight: bold;
+      display: block;
+      padding: 12px 20px;
+      border-radius: 8px;
+      transition: background-color 0.3s ease, color 0.3s ease, padding-left 0.3s ease;
+    }
+
+    .sidebar-menu ul li a:hover {
+      background-color: #fff;
+      color: #EAC7C7;
+      padding-left: 25px;
+    }
+
+    .sidebar-menu ul li a::before {
+      content: '';
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 6px;
+      height: 6px;
+      background-color: #EAC7C7;
+      border-radius: 50%;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .sidebar-menu ul li a:hover::before {
+      opacity: 1;
+    }
+
+    .close-button {
+      font-size: 2rem;
+      color: #333;
+      cursor: pointer;
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      transition: color 0.3s ease, transform 0.3s ease;
+    }
+
+    .close-button:hover {
+      color: #EAC7C7;
+      transform: rotate(90deg);
+    }
+
+    /* Submenu Styles */
+    .submenu {
+      display: none;
+      padding-left: 20px;
+      margin-top: 5px;
+    }
+
+    .submenu.active {
+      display: block;
+    }
+
+    .submenu a {
+      font-size: 1rem;
+      padding: 8px 20px;
+      color: #555;
+    }
+
+    .submenu a:hover {
+      color: #EAC7C7;
+      background-color: rgba(255, 255, 255, 0.3);
+    }
+
+    .has-submenu > a::after {
+      content: '▼';
+      font-size: 0.8rem;
+      margin-left: 10px;
+      transition: transform 0.3s ease;
+    }
+
+    .has-submenu.active > a::after {
+      transform: rotate(180deg);
+    }
+
+    /* Product Grid Styles */
+    h2.section-title {
+      text-align: center;
+      font-size: 2rem;
+      font-style: italic;
+      font-weight: normal;
+      margin: 2rem auto;
+      color: #EAC7C7;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 30px;
+      padding: 40px;
+      max-width: 1200px;
+      margin: 0 auto;
+      min-height: calc(100vh - 300px);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .card {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100%;
+      min-height: 400px;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+      transition: transform 0.2s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+    }
+
+    .card img {
+      width: 100%;
+      height: 280px;
+      object-fit: cover;
+    }
+
+    .card-content {
+      padding: 15px;
+    }
+
+    .card-content p {
+      margin: 6px 0;
+      font-size: 1rem;
+    }
+
+    .price {
+      font-weight: bold;
+      color: #555;
+    }
+
+    .buy-button {
+      margin-top: 10px;
+      padding: 8px 16px;
+      background-color: #fff;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: background 0.3s ease;
+    }
+
+    .buy-button:hover {
+      background-color: #EAC7C7;
+      color: white;
+    }
+
+    .remove-button {
+      margin-top: 10px;
+      padding: 8px 16px;
+      background-color: #ff4d4d;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      color: white;
+    }
+
+    .remove-button:hover {
+      background-color: #e60000;
+    }
+
+    .empty-message {
+      text-align: center;
+      color: #333;
+      font-size: 1.2rem;
+      width: 100%;
+    }
+
+    /* Footer Styles */
+    footer {
+      background-color: #fdf6f0;
+      padding: 30px 20px;
+      text-align: center;
+      border-top: 1px solid #e0cfc0;
+    }
+
+    .footer-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .footer-logo img {
+      width: 60px;
+      height: auto;
+      margin-bottom: 15px;
+    }
+
+    .footer-links {
+      margin-bottom: 15px;
+    }
+
+    .footer-links a {
+      font-size: 1rem;
+      color: #a38b6b;
+      text-decoration: none;
+      margin: 0 15px;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    .footer-links a:hover {
+      color: #8c7455;
+    }
+
+    .footer-container p {
+      font-size: 0.95rem;
+      color: #333;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    /* Fade-in Animation */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeInUp 0.8s ease-out forwards;
+    }
+
+    @keyframes fadeInUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Media Queries */
+    @media (min-width: 768px) {
+      .hero-content h1 {
+        font-size: 3.5rem;
+      }
+
+      .hero-content p {
+        font-size: 1.5rem;
+      }
+
+      .about-grid {
+        flex-direction: row;
+        align-items: flex-start;
+      }
+
+      .about-text {
+        flex: 3;
+        padding-right: 20px;
+      }
+
+      .about-image {
+        flex: 2;
+      }
+
+      .about-container h2 {
+        font-size: 2.8rem;
+      }
+
+      #comments-section h3 {
+        font-size: 2.4rem;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .title {
+        font-size: 1.2rem;
+      }
+
+      .hero-content h1 {
+        font-size: 2.2rem;
+      }
+
+      .hero-content p {
+        font-size: 1.1rem;
+      }
+
+      .cta-button {
+        padding: 10px 20px;
+      }
+
+      .about-container h2 {
+        font-size: 2rem;
+      }
+
+      #comments-section h3 {
+        font-size: 1.8rem;
+      }
+
+      .comments-container {
+        padding: 20px;
+      }
+
+      .empty-message {
+        font-size: 1rem;
+      }
+
+      .sidebar-menu {
+        max-width: 250px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .title {
+        font-size: 1.2rem;
+      }
+
+      .menu-icons img {
+        width: 20px;
+        height: 20px;
+      }
+
+      .sidebar-menu ul li a {
+        font-size: 1.1rem;
+        padding: 10px 15px;
+      }
+
+      .empty-message {
+        font-size: 0.9rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <button class="burger-button" onclick="toggleMenu()">☰</button>
+    <a href="home.html" class="title" style="text-decoration: none; color: black;">Saphir Jewelry</a>
+    <div class="menu-icons">
+      <a href="favoris.html"><img src="coeur.png" alt="Favoris" /></a>
+      <a href="login.html"><img src="login.png" alt="Connexion" /></a>
+      <a href="panier.html"><img src="panier.png" alt="Panier" /></a>
+    </div>
+  </header>
+
+  <!-- Sidebar Menu -->
+  <nav class="sidebar-menu">
+    <span class="close-button" onclick="closeMenu()">×</span>
+    <ul>
+      <li><a href="home.html">Home</a></li>
+      <li class="has-submenu">
+        <a href="#" onclick="toggleSubmenu(this)">Jewelry</a>
+        <div class="submenu">
+          <a href="collier.html">Necklaces</a>
+          <a href="bracelet.html">Bracelets</a>
+          <a href="bague.html">Rings</a>
+          <a href="collection.html">Collections</a>
+        </div>
+      </li>
+      <li><a href="favoris.html">Favorites</a></li>
+      <li><a href="panier.html">Cart</a></li>
+      <li><a href="about.html">About us</a></li>
+    </ul>
+  </nav>
+
+  <h2 class="section-title">My favorites</h2>
+
+  <div class="grid" id="favorites-grid">
+    <!-- Les produits favoris seront insérés ici dynamiquement -->
+  </div>
+
+  <footer>
+    <div class="footer-container">
+      <div class="footer-logo">
+        <img src="img_logo/RRR-fotor-20250508143416.png" alt="Saphir Jewelry Logo" />
+      </div>
+      <div class="footer-links">
+        <a href="contact.html">Contact</a>
+        <a href="terms.html">Terms</a>
+        <a href="privacy.html">Privacy</a>
+      </div>
+      <p>© 2025 Saphir Jewelry. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    function toggleMenu() {
+      const sidebar = document.querySelector('.sidebar-menu');
+      sidebar.classList.toggle('active');
+    }
+
+    function closeMenu() {
+      const sidebar = document.querySelector('.sidebar-menu');
+      sidebar.classList.remove('active');
+    }
+
+    function toggleSubmenu(element) {
+      const parentLi = element.parentElement;
+      const submenu = parentLi.querySelector('.submenu');
+      parentLi.classList.toggle('active');
+      submenu.classList.toggle('active');
+    }
+
+    // Fonction pour supprimer un produit des favoris
+    function removeFromFavorites(id) {
+      let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+      favorites = favorites.filter(item => item.id !== id);
+      localStorage.setItem("favorites", JSON.stringify(favorites));
+
+      // Réactualiser la liste des favoris affichée
+      displayFavorites();
+    }
+
+    // Fonction pour afficher les favoris à partir du stockage local
+    function displayFavorites() {
+      const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+      const favoritesGrid = document.getElementById('favorites-grid');
+
+      if (favorites.length === 0) {
+        favoritesGrid.innerHTML = "<p class='empty-message'>You have no products in your favorites.</p>";
+      } else {
+        favoritesGrid.innerHTML = '';
+        favorites.forEach(favorite => {
+          const card = document.createElement('div');
+          card.classList.add('card');
+          card.innerHTML = `
+            <img src="${favorite.imgSrc}" alt="${favorite.name}">
+            <div class="card-content">
+              <p>${favorite.name}</p>
+              <p class="price">${favorite.price} MAD</p>
+              <button class="buy-button" onclick="addToCart('${favorite.id}', '${favorite.name}', ${favorite.price}, '${favorite.imgSrc}')">Shop Now</button>
+              <button class="remove-button" onclick="removeFromFavorites('${favorite.id}')">Remove</button>
+            </div>
+          `;
+          favoritesGrid.appendChild(card);
+        });
+      }
+    }
+
+    // Fonction pour ajouter un produit au panier
+    function addToCart(id, name, price, imgSrc) {
+      const product = { id, name, price, imgSrc };
+      let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+      const existingProduct = cart.find(item => item.id === id);
+      if (existingProduct) {
+        existingProduct.quantity += 1;
+      } else {
+        product.quantity = 1;
+        cart.push(product);
+      }
+
+      localStorage.setItem("cart", JSON.stringify(cart));
+      alert(`${name} ajouté au panier !`);
+    }
+
+    // Afficher les favoris à l'ouverture de la page
+    document.addEventListener("DOMContentLoaded", displayFavorites);
+  </script>
+</body>
+</html>

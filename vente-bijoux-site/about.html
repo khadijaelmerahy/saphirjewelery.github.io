@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About us</title>
+  <link rel="stylesheet" href="Apropos.css">
+  <link rel="icon" href="img_logo/RRR-fotor-20250508143416.png" type="image/png">
+  <style>
+   body {
+      margin: 0;
+      padding-top: 5rem;
+      font-family: 'Georgia', serif;
+      background-color: #fdfdfd;
+      color: #222;
+    }
+
+    /* Header Styles */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background-color: #fff;
+      border-bottom: 1px solid #ddd;
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.5rem 1rem;
+      z-index: 1;
+      box-sizing: border-box;
+    }
+
+    .title {
+      font-size: 1.5rem;
+      font-weight: bold;
+      text-align: center;
+      flex-grow: 1;
+      color: #333;
+      letter-spacing: 1px;
+    }
+
+    .menu-icons {
+      display: flex;
+      gap: 1.5rem;
+      align-items: center;
+      padding-left: 0.5rem;
+      padding-right: 0.5rem;
+    }
+
+    .menu-icons img {
+      width: 24px;
+      height: 24px;
+      object-fit: contain;
+      transition: transform 0.3s ease;
+    }
+
+    .menu-icons img:hover {
+      transform: scale(1.1);
+    }
+
+    /* Burger Button */
+    .burger-button {
+      font-size: 1.5rem;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      color: #333;
+      transition: color 0.3s ease;
+    }
+
+    .burger-button:hover {
+      color: #EAC7C7;
+    }
+
+    /* Sidebar Menu */
+    .sidebar-menu {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 80%;
+      max-width: 280px;
+      background: linear-gradient(135deg, #EAC7C7 0%, #F7F5EB 100%);
+      box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.3);
+      z-index: 2;
+      padding: 20px;
+      box-sizing: border-box;
+      transform: translateX(-100%);
+      transition: transform 0.4s ease-in-out;
+    }
+
+    .sidebar-menu.active {
+      display: block;
+      transform: translateX(0);
+    }
+
+    .sidebar-menu ul {
+      list-style: none;
+      padding: 0;
+      margin: 60px 0 0 0;
+    }
+
+    .sidebar-menu ul li {
+      margin-bottom: 15px;
+      position: relative;
+    }
+
+    .sidebar-menu ul li a {
+      text-decoration: none;
+      color: #333;
+      font-size: 1.2rem;
+      font-weight: bold;
+      display: block;
+      padding: 12px 20px;
+      border-radius: 8px;
+      transition: background-color 0.3s ease, color 0.3s ease, padding-left 0.3s ease;
+    }
+
+    .sidebar-menu ul li a:hover {
+      background-color: #fff;
+      color: #EAC7C7;
+      padding-left: 25px;
+    }
+
+    .sidebar-menu ul li a::before {
+      content: '';
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 6px;
+      height: 6px;
+      background-color: #EAC7C7;
+      border-radius: 50%;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .sidebar-menu ul li a:hover::before {
+      opacity: 1;
+    }
+
+    .close-button {
+      font-size: 2rem;
+      color: #333;
+      cursor: pointer;
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      transition: color 0.3s ease, transform 0.3s ease;
+    }
+
+    .close-button:hover {
+      color: #EAC7C7;
+      transform: rotate(90deg);
+    }
+
+    /* Submenu Styles */
+    .submenu {
+      display: none;
+      padding-left: 20px;
+      margin-top: 5px;
+    }
+
+    .submenu.active {
+      display: block;
+    }
+
+    .submenu a {
+      font-size: 1rem;
+      padding: 8px 20px;
+      color: #555;
+    }
+
+    .submenu a:hover {
+      color: #EAC7C7;
+      background-color: rgba(255, 255, 255, 0.3);
+    }
+
+    .has-submenu > a::after {
+      content: '▼';
+      font-size: 0.8rem;
+      margin-left: 10px;
+      transition: transform 0.3s ease;
+    }
+
+    .has-submenu.active > a::after {
+      transform: rotate(180deg);
+    }
+
+    /* Media Queries for Header and Sidebar */
+    @media (max-width: 768px) {
+      header .title {
+        font-size: 1.2rem;
+      }
+      .sidebar-menu {
+        max-width: 250px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .title {
+        font-size: 1.2rem;
+      }
+      .menu-icons img {
+        width: 20px;
+        height: 20px;
+      }
+      .sidebar-menu ul li a {
+        font-size: 1.1rem;
+        padding: 10px 15px;
+      }
+    }
+
+    /* Scroll indicator (unchanged) */
+    .scroll-down-indicator {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      text-align: center;
+      font-size: 1.5em;
+      color: #a38b6b;
+      cursor: pointer;
+      animation: bounce 2s infinite;
+      display: block;
+      z-index: 10;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(8px); }
+    }
+
+    .fleche {
+      text-align: center;
+      background-color: #EAC7C7;
+      border: none;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+    }
+
+    .video-container {
+      margin: 2rem auto;
+      max-width: 1000px;
+      padding: 20px;
+      text-align: center;
+    }
+
+    video {
+      width: 50%;
+      height: auto;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <button class="burger-button" onclick="toggleMenu()">☰</button>
+    <a href="home.html" class="title" style="text-decoration: none; color: black;">Saphir Jewelry</a>
+    <div class="menu-icons">
+      <a href="favoris.html"><img src="coeur.png" alt="Favoris" /></a>
+      <a href="login.html"><img src="login.png" alt="Connexion" /></a>
+      <a href="panier.html"><img src="panier.png" alt="Panier" /></a>
+    </div>
+  </header>
+
+  <!-- Sidebar Menu -->
+  <nav class="sidebar-menu">
+    <span class="close-button" onclick="closeMenu()">×</span>
+    <ul>
+      <li><a href="home.html">Home</a></li>
+      <li class="has-submenu">
+        <a href="#" onclick="toggleSubmenu(this)">Jewelry</a>
+        <div class="submenu">
+          <a href="collier.html">Necklaces</a>
+          <a href="bracelet.html">Bracelets</a>
+          <a href="bague.html">Rings</a>
+          <a href="collection.html">Collections</a>
+        </div>
+      </li>
+      <li><a href="favoris.html">Favorites</a></li>
+      <li><a href="panier.html">Cart</a></li>
+      <li><a href="about.html">About us</a></li>
+    </ul>
+  </nav>
+
+  <!-- Main Content -->
+  <main>
+    <!-- Hero Section -->
+    <section class="hero-section">
+      <div class="hero-content">
+        <h1>Saphir Jewelry</h1>
+        <p>Crafting Timeless Elegance</p>
+        <a href="collier.html" class="cta-button">Explore Now</a>
+      </div>
+    </section>
+    
+    </div>
+    <!-- About Section -->
+    <section id="about" class="fade-in">
+      <div class="about-container">
+        <h2>Our Story</h2>
+        <div class="about-grid">
+          <div class="about-text">
+            <p>
+              At <strong>Saphir Jewelry</strong>, we weave stories into every piece we create.
+              Founded with a passion for elegance, our jewelry is designed to celebrate your unique moments.
+            </p>
+            <p>
+              Each necklace, bracelet, and ring is crafted with the finest materials, blending classic artistry with modern sophistication.
+              Whether for daily wear or a special occasion, our pieces are symbols of style and emotion.
+            </p>
+            <p>
+              Our designers draw inspiration from the beauty of nature and the pulse of contemporary trends.
+              Join us in shining brighter, one jewel at a time.
+            </p>
+          </div>
+          <div class="about-image">
+            <img src="img_logo/RRR-fotor-20250508143416.png" alt="Saphir Jewelry Craftsmanship" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Scroll Indicator (unchanged) -->
+    <div id="scrollIndicator" class="scroll-down-indicator" onclick="document.getElementById('comments-section').scrollIntoView({ behavior: 'smooth' })">
+      <button class="fleche">↓</button>
+    </div>
+
+    <!-- Comments Section -->
+    <section id="comments-section" class="fade-in">
+      <div class="comments-container">
+        <h3>Your Feedback</h3>
+        <textarea id="comment-input" placeholder="Share your thoughts..."></textarea>
+        <button onclick="addComment()">Submit</button>
+        <div id="comments-list"></div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-container">
+      <div class="footer-logo">
+        <img src="img_logo/RRR-fotor-20250508143416.png" alt="Saphir Jewelry Logo" />
+      </div>
+      <div class="footer-links">
+        <a href="contact.html">Contact</a>
+        <a href="terms.html">Terms</a>
+        <a href="privacy.html">Privacy</a>
+      </div>
+      <p>© 2025 Saphir Jewelry. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- JavaScript -->
+  <script>
+    function toggleMenu() {
+      const sidebar = document.querySelector('.sidebar-menu');
+      sidebar.classList.toggle('active');
+    }
+
+    function closeMenu() {
+      const sidebar = document.querySelector('.sidebar-menu');
+      sidebar.classList.remove('active');
+    }
+
+    function toggleSubmenu(element) {
+      const parentLi = element.parentElement;
+      const submenu = parentLi.querySelector('.submenu');
+      parentLi.classList.toggle('active');
+      submenu.classList.toggle('active');
+    }
+
+    function addComment() {
+      const commentInput = document.getElementById("comment-input");
+      const commentList = document.getElementById("comments-list");
+      const commentText = commentInput.value.trim();
+
+      if (commentText !== "") {
+        const commentDiv = document.createElement("div");
+        commentDiv.className = "comment";
+        commentDiv.innerText = commentText;
+        commentList.appendChild(commentDiv);
+        commentInput.value = "";
+      }
+    }
+
+    function toggleScrollIndicator() {
+      const commentSection = document.getElementById("comments-section");
+      const scrollIndicator = document.getElementById("scrollIndicator");
+      const rect = commentSection.getBoundingClientRect();
+
+      if (rect.top < window.innerHeight && rect.bottom >= 0) {
+        scrollIndicator.style.display = "none";
+      } else {
+        scrollIndicator.style.display = "block";
+      }
+    }
+
+    window.addEventListener('scroll', toggleScrollIndicator);
+    window.addEventListener('load', toggleScrollIndicator);
+  </script>
+</body>
+</html>

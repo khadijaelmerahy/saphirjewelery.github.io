@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log In</title>
+    <link href="style.css" rel="stylesheet">
+    <link rel="icon" href="img_logo/RRR-fotor-20250508143416.png" type="image/png">
+    <style>
+        /* Header Styles */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #fff;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.5rem 1rem;
+            z-index: 1;
+            box-sizing: border-box;
+        }
+
+        .title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-align: center;
+            flex-grow: 1;
+            color: #333;
+            letter-spacing: 1px;
+        }
+
+        .menu-icons {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+            padding-left: 0.5rem;
+            padding-right: 0.5rem;
+        }
+
+        .menu-icons img {
+            width: 24px;
+            height: 24px;
+            object-fit: contain;
+            transition: transform 0.3s ease;
+        }
+
+        .menu-icons img:hover {
+            transform: scale(1.1);
+        }
+
+        /* Burger Button */
+        .burger-button {
+            font-size: 1.5rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            color: #333;
+            transition: color 0.3s ease;
+        }
+
+        .burger-button:hover {
+            color: #EAC7C7;
+        }
+
+        /* Sidebar Menu */
+        .sidebar-menu {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 80%;
+            max-width: 280px;
+            background: linear-gradient(135deg, #EAC7C7 0%, #F7F5EB 100%);
+            box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.3);
+            z-index: 2;
+            padding: 20px;
+            box-sizing: border-box;
+            transform: translateX(-100%);
+            transition: transform 0.4s ease-in-out;
+        }
+
+        .sidebar-menu.active {
+            display: block;
+            transform: translateX(0);
+        }
+
+        .sidebar-menu ul {
+            list-style: none;
+            padding: 0;
+            margin: 60px 0 0 0;
+        }
+
+        .sidebar-menu ul li {
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .sidebar-menu ul li a {
+            text-decoration: none;
+            color: #333;
+            font-size: 1.2rem;
+            font-weight: bold;
+            display: block;
+            padding: 12px 20px;
+            border-radius: 8px;
+            transition: background-color 0.3s ease, color 0.3s ease, padding-left 0.3s ease;
+        }
+
+        .sidebar-menu ul li a:hover {
+            background-color: #fff;
+            color: #EAC7C7;
+            padding-left: 25px;
+        }
+
+        .sidebar-menu ul li a::before {
+            content: '';
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 6px;
+            height: 6px;
+            background-color: #EAC7C7;
+            border-radius: 50%;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .sidebar-menu ul li a:hover::before {
+            opacity: 1;
+        }
+
+        .close-button {
+            font-size: 2rem;
+            color: #333;
+            cursor: pointer;
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+
+        .close-button:hover {
+            color: #EAC7C7;
+            transform: rotate(90deg);
+        }
+
+        /* Submenu Styles */
+        .submenu {
+            display: none;
+            padding-left: 20px;
+            margin-top: 5px;
+        }
+
+        .submenu.active {
+            display: block;
+        }
+
+        .submenu a {
+            font-size: 1rem;
+            padding: 8px 20px;
+            color: #555;
+        }
+
+        .submenu a:hover {
+            color: #EAC7C7;
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .has-submenu > a::after {
+            content: '▼';
+            font-size: 0.8rem;
+            margin-left: 10px;
+            transition: transform 0.3s ease;
+        }
+
+        .has-submenu.active > a::after {
+            transform: rotate(180deg);
+        }
+
+        /* Body and Background */
+        body {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 0 10px;
+            color: white;
+            margin: 0;
+            background-color: #1f1e1d;
+        }
+
+        body::before {
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: url("back_login.png");
+            background-position: center;
+            background-size: cover;
+            z-index: -1;
+            filter: blur(4px);
+            background-attachment: fixed;
+            animation: sparkle 15s infinite linear;
+        }
+
+        @keyframes sparkle {
+            0% {
+                background-position: center;
+                opacity: 1;
+            }
+            50% {
+                background-position: center;
+                opacity: 0.8;
+            }
+            100% {
+                background-position: center;
+                opacity: 1;
+            }
+        }
+
+        /* Wrapper and Form */
+        .wrapper {
+            width: 490px;
+            border-radius: 12px;
+            padding: 40px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(8px);
+            margin-top: 5.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        @keyframes fadeInUp {
+            0% {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        h2 {
+            font-size: 2.4rem;
+            margin-bottom: 25px;
+            color: #fff;
+            font-family: 'Georgia', serif;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+        }
+
+        .input-field {
+            position: relative;
+            border-bottom: 2px solid #e0cfc0;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+
+        .input-field label {
+            position: absolute;
+            color: #fff;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            font-size: 16px;
+            font-family: 'Segoe UI', sans-serif;
+            pointer-events: none;
+            transition: all 0.3s ease;
+        }
+
+        .input-field input {
+            width: 100%;
+            height: 40px;
+            color: #fff;
+            background: transparent;
+            border: none;
+            outline: none;
+            font-size: 16px;
+            padding: 10px 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .input-field input:focus~label,
+        .input-field input:valid~label {
+            font-size: 0.8rem;
+            top: 0;
+            transform: translateY(-120%);
+            color: #EAC7C7;
+        }
+
+        .forget {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 25px 0 35px 0;
+            color: #fff;
+        }
+
+        #remember {
+            accent-color: #fff;
+        }
+
+        .forget label {
+            display: flex;
+            align-items: center;
+        }
+
+        .forget label p {
+            margin-left: 8px;
+        }
+
+        .wrapper a {
+            color: #efefef;
+            text-decoration: underline;
+        }
+
+        #loginButton {
+            background-color: #EAC7C7;
+            font-weight: 600;
+            border: none;
+            padding: 12px 20px;
+            cursor: pointer;
+            border-radius: 25px;
+            font-size: 16px;
+            color: #fff;
+            font-family: 'Segoe UI', sans-serif;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(163, 139, 107, 0.3);
+        }
+
+        #loginButton:hover {
+            background-color: #eca1a1;
+            transform: scale(1.05);
+            animation: bounce 0.6s ease-out forwards;
+            box-shadow: 0 8px 24px rgba(163, 139, 107, 0.5);
+            border: 2px solid #EAC7C7;
+        }
+
+        @keyframes bounce {
+            0% {
+                transform: scale(1);
+            }
+            30% {
+                transform: scale(1.1);
+            }
+            50% {
+                transform: scale(1);
+            }
+            70% {
+                transform: scale(1.05);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        #loginButton:active {
+            background-color: #6f543b;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        #loginButton:focus {
+            border: 2px solid #EAC7C7;
+            outline: none;
+        }
+
+        .register {
+            text-align: center;
+            margin-top: 30px;
+            color: #fff;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .register p {
+            font-size: 0.9rem;
+        }
+
+        /* Media Queries */
+        @media (max-width: 768px) {
+            .wrapper {
+                width: 90%;
+                padding: 20px;
+            }
+
+            h2 {
+                font-size: 1.8rem;
+            }
+
+            .input-field input,
+            .input-field label {
+                font-size: 14px;
+            }
+
+            .register p {
+                font-size: 0.8rem;
+            }
+
+            #loginButton {
+                font-size: 14px;
+                padding: 10px 15px;
+            }
+
+            .sidebar-menu {
+                max-width: 250px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .title {
+                font-size: 1.2rem;
+            }
+
+            .menu-icons img {
+                width: 20px;
+                height: 20px;
+            }
+
+            .sidebar-menu ul li a {
+                font-size: 1.1rem;
+                padding: 10px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <button class="burger-button" onclick="toggleMenu()">☰</button>
+        <a href="home.html" class="title" style="text-decoration: none; color: black;">Saphir Jewelry</a>
+        <div class="menu-icons">
+            <a href="favoris.html"><img src="coeur.png" alt="Favoris" /></a>
+            <a href="login.html"><img src="login.png" alt="Connexion" /></a>
+            <a href="panier.html"><img src="panier.png" alt="Panier" /></a>
+        </div>
+    </header>
+
+    <!-- Sidebar Menu -->
+    <nav class="sidebar-menu">
+        <span class="close-button" onclick="closeMenu()">×</span>
+        <ul>
+            <li><a href="home.html">Home</a></li>
+            <li class="has-submenu">
+                <a href="#" onclick="toggleSubmenu(this)">Jewelry</a>
+                <div class="submenu">
+                    <a href="collier.html">Necklaces</a>
+                    <a href="bracelet.html">Bracelets</a>
+                    <a href="bague.html">Rings</a>
+                    <a href="collection.html">Collections</a>
+                </div>
+            </li>
+            <li><a href="favoris.html">Favorites</a></li>
+            <li><a href="panier.html">Cart</a></li>
+            <li><a href="about.html">About us</a></li>
+        </ul>
+    </nav>
+
+    <div class="wrapper">
+        <form id="loginForm" action="#">
+            <h2>Welcome</h2>
+            <div class="input-field">
+                <input type="text" id="email" required>
+                <label>Enter your email</label>
+            </div>
+            <div class="input-field">
+                <input type="password" id="password" required>
+                <label>Enter your password</label>
+            </div>
+            <div class="forget">
+                <label for="remember">
+                    <input type="checkbox" id="remember">
+                    <p>Remember me</p>
+                </label>
+                <a href="#">Forgot password?</a>
+            </div>
+            <button id="loginButton" type="submit">Log in</button>
+
+            <div class="register">
+                <p>
+                    Don't have an account?
+                    <a href="sign.html">Register</a>
+                </p>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        function toggleMenu() {
+            const sidebar = document.querySelector('.sidebar-menu');
+            sidebar.classList.toggle('active');
+        }
+
+        function closeMenu() {
+            const sidebar = document.querySelector('.sidebar-menu');
+            sidebar.classList.remove('active');
+        }
+
+        function toggleSubmenu(element) {
+            const parentLi = element.parentElement;
+            const submenu = parentLi.querySelector('.submenu');
+            parentLi.classList.toggle('active');
+            submenu.classList.toggle('active');
+        }
+
+        // Login form submission handling
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value.trim();
+
+            if (email && password) {
+                // Simulate successful login (in a real app, this would check against a backend)
+                alert('Login successful! Welcome to Saphir Jewelry.');
+                document.getElementById('loginForm').reset(); // Clear the form
+            } else {
+                alert('Please fill in both email and password fields.');
+            }
+        });
+    </script>
+</body>
+</html>
