@@ -1,0 +1,258 @@
+/* Main Content */
+main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 30px 20px;
+  }
+  
+  /* Hero Section (same as About Us) */
+  .hero-section {
+    position: relative;
+    text-align: center;
+    padding: 70px 20px;
+    background: linear-gradient(135deg, #fdf6f0, #EAC7C7);
+    border-radius: 12px;
+    margin-bottom: 50px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  }
+  
+  .hero-content h1 {
+    font-size: 2.8rem;
+    color: #a38b6b;
+    margin-bottom: 15px;
+    font-family: 'Georgia', serif;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+  }
+  
+  .hero-content p {
+    font-size: 1.3rem;
+    color: #333;
+    margin-bottom: 25px;
+    font-family: 'Segoe UI', sans-serif;
+  }
+  
+  /* Cart Section (inspired by About Us "about" section) */
+  .cart-container {
+    padding: 40px 20px;
+    text-align: center;
+  }
+  
+  .cart-container h2 {
+    font-size: 2.3rem;
+    color: #a38b6b;
+    margin-bottom: 25px;
+    font-family: 'Georgia', serif;
+  }
+  
+  .cart-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    align-items: center;
+  }
+  
+  .cart-items {
+    flex: 3;
+    padding-right: 20px;
+  }
+  
+  .cart-list {
+    background-color: #fff;
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    max-height: 400px;
+    overflow-y: auto;
+  }
+  
+  .cart-total {
+    margin-top: 20px;
+    background-color: #fdf6f0;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  .cart-image {
+    flex: 2;
+  }
+  
+  .cart-image img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Cart Items */
+  ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .cart-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #e0cfc0;
+    padding: 15px 0;
+    transition: background-color 0.3s ease;
+  }
+  
+  .cart-item:hover {
+    background-color: #f9f1e7;
+  }
+  
+  .cart-item span {
+    flex: 1;
+    font-size: 1.1rem;
+    color: #333;
+    font-family: 'Segoe UI', sans-serif;
+  }
+  
+  .controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+  
+  .buy-button {
+    background: none;
+    border: 2px solid #a38b6b;
+    padding: 6px 12px;
+    font-family: 'Georgia', serif;
+    font-size: 1rem;
+    color: #a38b6b;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border-radius: 8px;
+  }
+  
+  .buy-button:hover {
+    background-color: #a38b6b;
+    color: #fff;
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(163, 139, 107, 0.3);
+  }
+  
+  .total {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #a38b6b;
+    font-family: 'Georgia', serif;
+  }
+  
+  /* Footer (same as About Us) */
+  footer {
+    background-color: #fdf6f0;
+    padding: 30px 20px;
+    text-align: center;
+    border-top: 1px solid #e0cfc0;
+  }
+  
+  .footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .footer-logo img {
+    width: 60px;
+    height: auto;
+    margin-bottom: 15px;
+  }
+  
+  .footer-links {
+    margin-bottom: 15px;
+  }
+  
+  .footer-links a {
+    font-size: 1rem;
+    color: #a38b6b;
+    text-decoration: none;
+    margin: 0 15px;
+    font-family: 'Segoe UI', sans-serif;
+  }
+  
+  .footer-links a:hover {
+    color: #8c7455;
+  }
+  
+  .footer-container p {
+    font-size: 0.95rem;
+    color: #333;
+    font-family: 'Segoe UI', sans-serif;
+  }
+  
+  /* Fade-in Animation (same as About Us) */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.8s ease-out forwards;
+  }
+  
+  @keyframes fadeInUp {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Responsive Design (same as About Us) */
+  @media (min-width: 768px) {
+    .hero-content h1 {
+      font-size: 3.5rem;
+    }
+  
+    .hero-content p {
+      font-size: 1.5rem;
+    }
+  
+    .cart-grid {
+      flex-direction: row;
+      align-items: flex-start;
+    }
+  
+    .cart-items {
+      flex: 3;
+      padding-right: 20px;
+    }
+  
+    .cart-image {
+      flex: 2;
+    }
+  
+    .cart-container h2 {
+      font-size: 2.8rem;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .hero-content h1 {
+      font-size: 2.2rem;
+    }
+  
+    .hero-content p {
+      font-size: 1.1rem;
+    }
+  
+    .cart-container h2 {
+      font-size: 2rem;
+    }
+  
+    .cart-items {
+      padding-right: 0;
+    }
+  
+    .cart-list, .cart-total {
+      padding: 15px;
+    }
+  
+    .cart-item span {
+      font-size: 1rem;
+    }
+  
+    .total {
+      font-size: 1.2rem;
+    }
+  }
